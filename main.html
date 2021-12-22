@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IPFS File Upload</title>
+
+    <style>
+      .container {
+        display: flex ;
+        flex-wrap: wrap ;
+        justify-content: center ;
+        align-items: center ;
+        
+        outline: solid 1px black ;
+        width: 450px ;
+        height: 200px ;
+        margin: auto ;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      
+      <form action="/uploadfile" method="post" enctype="multipart/form-data">
+        <input type="file" name="file1"/>
+        <button>Upload File</button>
+      </form>
+
+      <input type="text" id="file_cid" name="fileCID">
+      <button onclick="deliverFile()" style="margin-left: 10px;">Show File</button>
+      <button onclick="pinFile()" style="margin-left: 10px;">Pin File</button>
+    
+    </div>
+
+  </body>
+
+  <script>
+    function deliverFile() {
+      var xhr = new XMLHttpRequest() ;
+      xhr.onreadystatechange = function() {
+        if( this.readyState == 4 && this.status == 200 ) {
+          console.log( this ) ;
+          window.open( this.responseURL ) ;
+        }
+      } ;
+
+      let hash = document.getElementById( "file_cid" ).value ;
+      console.log( hash ) ;
+      xhr.open( "GET" , "deliver/" + hash , true ) ;
+      xhr.send() ;
+    }   
+
+    function pinFile() {
+      var xhr = new XMLHttpRequest() ;
+      xhr.onreadystatechange = function() {
+        if( this.readyState == 4 && this.status == 200 ) {
+          console.log( this ) ;
+          window.open( this.responseURL ) ;
+        }
+      } ;
+
+      let hash = document.getElementById( "file_cid" ).value ;
+      console.log( hash ) ;
+      xhr.open( "POST" , "pinfile/" + hash , true ) ;
+      xhr.send() ;
+    }
+  </script>
+
+</html>
